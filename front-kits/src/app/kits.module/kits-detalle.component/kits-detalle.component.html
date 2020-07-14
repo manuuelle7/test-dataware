@@ -1,0 +1,125 @@
+<div mdbModal #kitDetalle="mdbModal" class="modal fade overflow-auto" tabindex="-1" role="dialog"
+     aria-labelledby="myBasicModalLabel" aria-hidden="true" [config]="{backdrop: true, ignoreBackdropClick: true}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="kitDetalle.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">{{(!nuevo)? "Detalle KIT":"Nueva KIT"}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row" *ngIf="!nuevo">
+          <div class="custom-control custom-switch ml-3">            
+            <input type="checkbox" class="custom-control-input" id="customSwitches" [(ngModel)]="editar">     
+            <label class="custom-control-label" for="customSwitches">{{editar? "Editando":"Editar"}}</label>       
+          </div>
+        </div>
+
+        <form [formGroup]="kitForm">         
+
+          <div class="row">
+            <div class="col-6 col-lg-6 md-form">
+              <input mdbInput type="text" formControlName="idKit" [(ngModel)]="kit.iD_KITS" [ngClass]="{'disabled': !editar}" id="idKit"
+              class="form-control">
+                <label for="idKit" class="col-lg-12" [ngClass]="{'disabled': !editar}">ID Kit</label>
+                <div *ngIf="kitForm.controls['idKit'].touched">
+                  <div *ngIf="kitForm.controls['idKit'].errors?.required"
+                        class="text-danger animated fadeInDown fast-4 small">Dato requerido
+                  </div>
+                  <div class="text-danger animated fadeInDown fast-4 small"
+                        *ngIf="kitForm.controls['idKit'].errors?.pattern">
+                    Límite de caracteres excedido
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-6 md-form">
+              <input mdbInput type="text" formControlName="nombre" [(ngModel)]="kit.nombre" [ngClass]="{'disabled': !editar}" id="nombre"
+              class="form-control">
+                <label for="nombre" class="col-lg-12" [ngClass]="{'disabled': !editar}">Nombre</label>
+                <div *ngIf="kitForm.controls['nombre'].touched">
+                  <div *ngIf="kitForm.controls['nombre'].errors?.required"
+                        class="text-danger animated fadeInDown fast-4 small">Dato requerido
+                  </div>
+                  <div class="text-danger animated fadeInDown fast-4 small"
+                        *ngIf="kitForm.controls['nombre'].errors?.pattern">
+                    Límite de caracteres excedido
+                  </div>
+                </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-12 md-form">
+              <textarea type="text" id="descripcion" class="md-textarea form-control" [cols]="2" [ngClass]="{'disabled': !editar}"
+              formControlName="descripcion" [(ngModel)]="kit.descripcion" mdbInput></textarea>
+              <label for="descripcion" class="col-lg-12" [ngClass]="{'disabled': !editar}">Descripción</label>
+              <div *ngIf="kitForm.controls['descripcion'].touched">
+                <div *ngIf="kitForm.controls['descripcion'].errors?.required"
+                      class="text-danger animated fadeInDown fast-4 small">Dato requerido
+                </div>
+                <div class="text-danger animated fadeInDown fast-4 small"
+                      *ngIf="kitForm.controls['descripcion'].errors?.pattern">
+                  Límite de caracteres excedido
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          
+
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" (click)="kitDetalle.hide();" class="btn btn-danger waves-light btn-md"
+                aria-label="Close" mdbWavesEffect>
+          Cancelar
+        </button>
+        <button type="button"
+                class="btn btn-primary indigo darken-3 waves-light btn-md"
+                aria-label="Close"
+                (click)="guardarKit()"
+                mdbWavesEffect>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+  <!--Modal Warning-->
+  <div mdbModal #warning="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-warning" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <p class="heading lead">{{tituloWarning}}</p>
+  
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="warning.hide()">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+  
+        <!--Body-->
+        <div class="modal-body">
+          <div class="text-center">          
+            <mdb-icon fas icon="exclamation-triangle" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+            <p>{{mensajeWarning}}</p>
+          </div>
+        </div>
+  
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <a type="button" mdbBtn color="warning" outline="true" class="waves-effect" mdbWavesEffect (click)="warning.hide()">Aceptar</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>

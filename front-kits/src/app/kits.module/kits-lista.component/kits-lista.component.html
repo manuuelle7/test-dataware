@@ -1,0 +1,129 @@
+<div class="row align-items-stretch">
+    <div class="col-12">
+      <div class="card mt-lg-3">
+        <div class="card-header unique-color lighten-1 white-text d-flex header-admin-card">
+          <div class="mr-auto align-self-center">
+            <strong>Configuración de KITS</strong>
+          </div>          
+          <button mdbBtn type="button" size= "sm" color="deep-orange" mdbWavesEffect (click)="nuevo()">            
+              Nuevo
+              <i class="fa fa-plus mr-1" aria-hidden="true"></i>
+          </button>       
+          
+        </div>
+        <div class="container mt-3">
+          <table mdbTable #tableEl="mdbTable" class="z-depth-1" [responsive]="!true" searchPagination="true">
+            <thead>
+              <tr>
+                <!--<th width="45px">#</th>-->
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th width="25px"></th>
+                <th width="25px"></th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let el of listaKits; let i = index">
+              <!--<th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+                <mdb-checkbox [checked]="true" [default]="false" [(ngModel)]="el.datos.seleccionado"></mdb-checkbox>
+              </th>-->
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                {{el.iD_KITS}}
+              </td>
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                {{el.nombre}}
+              </td>             
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                {{el.descripcion}}
+              </td>
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                <button class="btn btn-info btn-sm m-0 waves-light" (click)="detalle(el)" mdbWavesEffect>
+                  <mdb-icon fas icon="info-circle"></mdb-icon>
+                </button>
+              </td>
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                <button class="btn btn-danger btn-sm m-0 waves-light" (click)="eliminar(el)" mdbWavesEffect>
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+              
+            </tr>
+            </tbody>
+            <tfoot class="grey lighten-5 w-100">
+              <tr>
+                <td colspan="12">
+                  <mdb-table-pagination 
+                  maxVisibleItems=100
+                  [searchPagination]="true"
+                  [searchDataSource]="listaKits"
+                  searchText="'pp'"
+                  [tableEl]="tableEl" 
+                  [ofKeyword]="'de'" ></mdb-table-pagination>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--Modal Eliminar-->
+<div mdbModal #basicDeleteConfirmModal="mdb-modal" class="modal fade bottom" tabindex="-1" role="dialog"
+      aria-labelledby="myBasicModalLabel" [config]="{backdrop: 'static'}"
+      aria-hidden="true">
+  <div class="modal-dialog modal-frame modal-bottom" role="document">
+    <div class="modal-content">
+      <!--Body-->
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center">
+          <p class="pt-3 pr-2">{{ mensajeEliminar }}</p>
+          <a type="button" class="btn btn-danger btn-md waves-effect" data-dismiss="modal"
+            (click)="basicDeleteConfirmModal.hide()">
+            <i class="fa fa-times mr-1"></i>
+            Cancelar
+          </a>
+          <a type="button" class="btn btn-primary btn-md waves-effect" (click)="confirmEliminar()">
+            <i class="fa fa-check mr-1"></i>
+            Aceptar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!--Modal Completado-->
+<div mdbModal #completado="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">{{tituloSuccess}}</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="completado.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+          <p>{{mensajeSuccess}}</p>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="success" outline="true" class="waves-effect" mdbWavesEffect (click)="completado.hide()">Aceptar</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+<app-kits-detalle [kit]="kit" (recargar)="kitCreado($event)"></app-kits-detalle>
